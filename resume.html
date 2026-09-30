@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>××× · IT Support / IT Operations</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232E6E8E'/%3E%3Ctext x='32' y='42' font-size='30' text-anchor='middle' fill='%23fff' font-family='Arial'%3EIT%3C/text%3E%3C/svg%3E">
+<style>
+/* ===== 设计 token：Modern IT / Minimal / Professional ===== */
+:root{
+  --bg:#F4F6F8;          /* 页面浅灰背景 */
+  --card:#FFFFFF;        /* 卡片白底 */
+  --ink:#1C2733;         /* 主文字 */
+  --ink-2:#5B6B7B;       /* 次级文字 */
+  --ink-3:#93A1AE;       /* 弱化文字 */
+  --accent:#2E6E8E;      /* 低饱和青蓝强调色 */
+  --accent-soft:#E7F0F4; /* 强调色浅底 */
+  --line:#E3E8EE;        /* 细边框线 */
+  --radius:10px;
+  --shadow:0 1px 3px rgba(24,40,60,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"Inter","PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:14px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none;}
+
+/* ===== 打印 / 导出按钮（打印时隐藏） ===== */
+.print-btn{
+  position:fixed;top:18px;right:18px;z-index:50;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 16px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card);color:var(--ink);font-size:13px;cursor:pointer;
+  box-shadow:var(--shadow);
+  font-family:inherit;
+}
+.print-btn:hover{border-color:var(--accent);color:var(--accent);}
+.print-btn svg{width:15px;height:15px;}
+
+/* ===== 页面容器 ===== */
+.page{
+  max-width:930px;margin:28px auto;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+/* ===== 顶部：姓名 / 定位 / 技能 / 联系 ===== */
+.head{
+  padding:34px 40px 26px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#FBFCFE,var(--card));
+}
+.head .name{font-size:30px;font-weight:700;letter-spacing:.5px;}
+.head .role{font-size:16px;font-weight:600;color:var(--accent);margin-top:4px;}
+.head .stack{margin-top:12px;color:var(--ink-2);font-size:14px;}
+.head .stack b{color:var(--ink);font-weight:600;}
+.head .meta{margin-top:10px;color:var(--ink-2);font-size:13px;display:flex;flex-wrap:wrap;gap:6px 18px;}
+.head .meta span{display:inline-flex;align-items:center;gap:6px;}
+.head .meta a:hover{color:var(--accent);}
+.head .meta svg{width:13px;height:13px;color:var(--ink-3);}
+.head .meta .dot{color:var(--ink-3);}
+
+/* ===== 左右两栏 ===== */
+.layout{display:grid;grid-template-columns:minmax(260px,33%) 1fr;}
+.left{padding:28px 26px 32px 40px;background:#FAFBFC;border-right:1px solid var(--line);}
+.right{padding:28px 40px 32px 30px;}
+
+/* 分区标题 */
+.s-title{
+  font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin:26px 0 12px;display:flex;align-items:center;gap:8px;
+}
+.s-title::after{content:"";flex:1;height:1px;background:var(--line);}
+.s-title.first{margin-top:0;}
+
+/* 段落 / 次级 */
+.p{font-size:13.5px;color:var(--ink-2);}
+.p strong{color:var(--ink);font-weight:600;}
+
+/* ===== 技术栈 Tags ===== */
+.skill-group{margin-bottom:16px;}
+.skill-group:last-child{margin-bottom:0;}
+.skill-group .g-name{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:7px;}
+.tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{
+  font-size:12px;padding:3px 10px;border-radius:20px;
+  background:var(--card);border:1px solid var(--line);color:var(--ink-2);
+}
+.tag.core{background:var(--accent-soft);border-color:#CFE2EA;color:var(--accent);font-weight:500;}
+
+/* ===== 证书 / 教育 ===== */
+.cred{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:9px;}
+.cred .ic{flex:none;width:30px;height:30px;border-radius:8px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;color:var(--accent);}
+.cred .ic svg{width:16px;height:16px;}
+.cred .c-name{font-weight:600;font-size:13.5px;}
+.cred .c-sub{font-size:12px;color:var(--ink-2);}
+
+/* ===== 工作经历：时间轴（grid 三列，保证像素级对齐） ===== */
+.tl{display:grid;grid-template-columns:88px 26px 1fr;column-gap:12px;}
+.tl-row{grid-column:1/-1;display:contents;}
+.tl-time{text-align:right;padding-top:3px;font-size:12px;color:var(--ink-3);white-space:nowrap;font-variant-numeric:tabular-nums;}
+.tl-axis{justify-self:center;position:relative;width:2px;background:var(--line);}
+.tl-axis .node{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:var(--card);border:2px solid var(--accent);}
+.tl-body{padding-bottom:22px;}
+.tl-body:last-child{padding-bottom:0;}
+.job-title{font-size:14.5px;font-weight:700;color:var(--ink);}
+.job-org{font-size:13px;color:var(--accent);font-weight:600;margin-top:1px;}
+.job-desc{margin-top:7px;font-size:13px;color:var(--ink-2);}
+.job-desc li{list-style:none;position:relative;padding-left:14px;margin-bottom:5px;}
+.job-desc li::before{content:"";position:absolute;left:1px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.6;}
+
+/* ===== 项目经历 ===== */
+.proj{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px;margin-bottom:12px;}
+.proj:last-child{margin-bottom:0;}
+.proj-head{display:flex;align-items:center;flex-wrap:wrap;gap:8px;}
+.proj-name{font-size:14px;font-weight:600;color:var(--ink);}
+.badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
+.badge.work{background:#EAF3EC;color:#3E7C4F;}
+.badge.lab{background:var(--accent-soft);color:var(--accent);}
+.proj-desc{margin-top:7px;font-size:13px;color:var(--ink-2);}
+.proj-desc li{list-style:none;position:relative;padding-left:14px;margin-bottom:4px;}
+.proj-desc li::before{content:"";position:absolute;left:1px;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.5;}
+
+/* ===== 打印优化（A4 / PDF） ===== */
+@media print{
+  @page{size:A4;margin:13mm 12mm;}
+  body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .print-btn{display:none !important;}
+  .page{box-shadow:none;border:none;max-width:none;margin:0;border-radius:0;}
+  .head{background:#fff;padding:22px 34px 20px;border-bottom:1px solid #d6dde5;}
+  .left,.right{padding-top:20px;}
+  section, .proj, .tl-body, .s-title{break-inside:avoid;}
+  .layout{grid-template-columns:minmax(230px,32%) 1fr;}
+  .left{border-right:1px solid #e0e5eb;}
+}
+
+/* ===== 响应式：移动端单栏 ===== */
+@media (max-width:760px){
+  .print-btn{position:static;display:flex;margin:18px auto;justify-content:center;}
+  .page{margin:12px;border-radius:12px;}
+  .head{padding:24px 22px 20px;}
+  .head .name{font-size:25px;}
+  .layout{grid-template-columns:1fr;}
+  .left{border-right:none;border-bottom:1px solid var(--line);padding:22px;}
+  .right{padding:22px;}
+  .tl{grid-template-columns:70px 20px 1fr;column-gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===== 顶部 ===== -->
+  <header class="head">
+    <div class="name">×××</div>
+    <div class="role">IT Support / IT Operations</div>
+    <div class="stack"><b>Windows</b> · <b>Linux</b> · <b>Networking</b> · <b>Docker</b> · <b>Python</b></div>
+    <div class="meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>深圳</span>
+      <span class="dot">·</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>电话：13640960535</span>
+      <span class="dot">·</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg><a href="mailto:1512054255@qq.com">邮箱：1512054255@qq.com</a></span>
+    </div>
+  </header>
+
+  <!-- ===== 左右两栏 ===== -->
+  <div class="layout">
+
+    <!-- 左栏：个人简介 / 技术栈 / 证书 / 教育 -->
+    <aside class="left">
+      <div class="s-title first">个人简介</div>
+      <p class="p">
+        面向企业级 IT 环境的技术支持岗。擅长 <strong>Windows 终端及办公环境故障排查</strong>、局域网与
+        <strong>SMB 文件共享</strong>排障，具备 <strong>Linux 运维基础（RHCSA）</strong>及
+        <strong>Docker、Python</strong>自动化实践，能独立搭建实验环境完成排障与部署。
+        正在寻找 IT Support / 桌面运维 / 网络及 Linux 运维岗位，希望进入更正规的企业 IT 环境，持续提升技术深度。
+      </p>
+
+      <div class="s-title">技术栈</div>
+
+      <div class="skill-group">
+        <div class="g-name">Windows / Endpoint</div>
+        <div class="tags">
+          <span class="tag core">Windows 系统排障</span>
+          <span class="tag core">PC 软硬件</span>
+          <span class="tag">SMB 文件共享</span>
+          <span class="tag">PowerShell</span>
+          <span class="tag">用户与权限</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="g-name">Networking</div>
+        <div class="tags">
+          <span class="tag core">TCP/IP</span>
+          <span class="tag">子网 / 网关 / DNS</span>
+          <span class="tag">Ping / tracert</span>
+          <span class="tag">DHCP</span>
+          <span class="tag">路由器 / 交换机</span>
+          <span class="tag">局域网排障</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="g-name">Linux</div>
+        <div class="tags">
+          <span class="tag core">RHCSA</span>
+          <span class="tag">CentOS / Ubuntu</span>
+          <span class="tag">systemd</span>
+          <span class="tag">SELinux</span>
+          <span class="tag">LVM / RAID</span>
+          <span class="tag">NFS / PXE</span>
+          <span class="tag">Web 服务</span>
+          <span class="tag">软件仓库</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="g-name">Containers / DevOps</div>
+        <div class="tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Docker Compose</span>
+          <span class="tag">镜像 / 容器 / Volume</span>
+          <span class="tag">Jenkins</span>
+          <span class="tag">CI/CD 基础</span>
+          <span class="tag">K8s 基础</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="g-name">Scripting / Automation</div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">tkinter</span>
+          <span class="tag">pandas / openpyxl</span>
+          <span class="tag">PyInstaller</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="g-name">Monitoring</div>
+        <div class="tags">
+          <span class="tag">Zabbix</span>
+          <span class="tag">服务状态监控</span>
+          <span class="tag">日志与故障排查</span>
+        </div>
+      </div>
+
+      <div class="s-title">证书</div>
+      <div class="cred">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg></div>
+        <div><div class="c-name">RHCSA</div><div class="c-sub">Red Hat 认证系统管理员</div></div>
+      </div>
+
+      <div class="s-title">教育背景</div>
+      <div class="cred">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></div>
+        <div><div class="c-name">深圳信息职业技术大学</div><div class="c-sub">2024 年毕业</div></div>
+      </div>
+    </aside>
+
+    <!-- 右栏：工作经历 / 项目经历 -->
+    <main class="right">
+      <div class="s-title first">工作经历</div>
+      <div class="tl">
+        <div class="tl-row">
+          <div class="tl-time">2025 — 至今</div>
+          <div class="tl-axis"><span class="node"></span></div>
+          <div class="tl-body">
+            <div class="job-title">网络管理员</div>
+            <div class="job-org">学校 · IT 支持 / 网络维护 / 多媒体</div>
+            <ul class="job-desc">
+              <li>负责全校办公电脑 Windows 系统安装、重装与故障排查，处理系统、软件及硬件问题，保障日常办公正常运转。</li>
+              <li>排查局域网连接故障，使用 Ping、tracert、PowerShell 定位问题，处理 IP、子网、网关、DNS 配置及 SMB / Windows 文件共享访问问题。</li>
+              <li>为师生提供桌面及办公设备支持，解决打印机、办公软件、账号等日常问题。</li>
+              <li>承担学校活动与宣传素材的拍摄、剪辑与成片交付（剪映 / DaVinci Resolve）。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-time">2024 — 2025</div>
+          <div class="tl-axis"><span class="node"></span></div>
+          <div class="tl-body">
+            <div class="job-title">运维实习生</div>
+            <div class="job-org">Linux 运维基础</div>
+            <ul class="job-desc">
+              <li>在 CentOS 环境下参与 Linux 系统运维，协助服务器环境日常维护与故障排查。</li>
+              <li>协助部署与维护 Zabbix 监控，参与监控告警处理与问题定位。</li>
+              <li>接触 Web 服务、数据库基础与 PHP 环境，配合解决基础运维问题。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-title">项目经历</div>
+
+      <div class="proj">
+        <div class="proj-head"><span class="proj-name">Windows 局域网 SMB 文件共享故障排查</span><span class="badge work">实际工作</span></div>
+        <ul class="proj-desc">
+          <li>排查 SMB 共享无法访问问题：TCP 连接测试、SMB 服务状态、SMB1/SMB2 协议、Windows 凭据与 IPC$、共享权限与 NTFS 权限。</li>
+          <li>使用 PowerShell、net use、net view 定位并解决局域网共享访问故障。</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-head"><span class="proj-name">局域网网络故障排查与修复</span><span class="badge work">实际工作</span></div>
+        <ul class="proj-desc">
+          <li>排查办公局域网连接故障，使用 Ping、tracert 定位链路与连通性问题，检查 IP、子网掩码、网关、DNS 配置。</li>
+          <li>处理 IP 冲突、网关 / DNS 配置错误等常见网络故障，结合交换机、路由器基础知识排查并恢复终端与局域网通信。</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-head"><span class="proj-name">Linux 运维实验环境</span><span class="badge lab">个人实验 · 对应 RHCSA</span></div>
+        <ul class="proj-desc">
+          <li>基于虚拟机搭建 Linux（CentOS / Ubuntu）实验环境，实践用户与权限管理、SELinux、LVM、RAID、NFS、systemd、日志、Web 服务、PXE、软件仓库及 Zabbix 监控。</li>
+        </ul>
+      </div>
+
+      <div class="proj">
+        <div class="proj-head"><span class="proj-name">Excel 自动化分析工具</span><span class="badge lab">个人工具</span></div>
+        <ul class="proj-desc">
+          <li>使用 Python（tkinter、pandas、openpyxl）开发桌面 GUI 工具，自动读取、分析、比较多个 Excel 文件并输出结果，已用 PyInstaller 打包。</li>
+        </ul>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<button class="print-btn" onclick="window.print()" type="button">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+  打印 / 导出 PDF
+</button>
+
+</body>
+</html>
